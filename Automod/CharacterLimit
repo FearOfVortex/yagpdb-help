@@ -1,1 +1,10 @@
+{{/* 
+Trigger Type: Regex 
+Trigger: .* 
+*/}}
 
+{{if gt (len (toRune .Message.Content)) 490}}
+{{deleteTrigger 0}}
+{{.User.Mention}} To Many Characters! 
+{{deleteResponse 5}}
+{{end}}
