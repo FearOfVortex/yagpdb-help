@@ -1,0 +1,20 @@
+{{/* Set to 0 for a per user cooldown, set to 1 to make the cooldown global. */}}
+{{$global := 1}}
+
+{{/* Name of the database entry, good for multiple commands that use cooldowns. */}}
+{{$name := "cooldown"}}
+
+{{/* Length of the cooldown in seconds. */}}
+{{$length := 30}}
+
+{{/* Whether or not to announce when the command is on cooldown 1 for yes 0 for no */}}
+{{$announce := 0}}
+
+
+{{if eq $global 0}}{{$global = .User.ID}}{{else}}{{$global = (toInt64 0)}}{{end}}{{if (dbGet $global $name)}}{{if eq $announce 1}}:warning: This command is still on cooldown for: {{humanizeDurationSeconds ((dbGet $global $name).ExpiresAt.Sub currentTime)}}.{{end}}{{else}}{{dbSetExpire $global $name "cooldown" $length}}
+
+
+{{deleteMessage .Channel.ID (toInt (dbGet 0 "Bug").Value) 0}}{{sleep 1}}
+{{ $embed := cembed "title" "TITLEHERE" "description" "DESCRIPTIONHERE" "color"  65535}} {{$id := sendMessageRetID nil $embed}} {{dbSet 0 "Bug" (toString $id)}}
+
+{{end}}
