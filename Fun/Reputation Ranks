@@ -1,0 +1,15 @@
+{{/*
+Trigger Type: Regex
+Trigger: .*
+
+They must send a message to recieve their rank.
+*/}}
+
+{{ $foundrep := slice (exec "rep") (add (len .User.Username) 4) | reFind `\d+` | toInt }}
+
+{{if eq (toInt $foundrep) 75}}
+    {{addRoleID ROLEID}}
+
+{{else if eq (toInt $foundrep) 100}}
+    {{addRoleID ROLEID}}
+{{end}}
