@@ -1,0 +1,8 @@
+{{/* 
+Trigger Type: Command
+Trigger: edit
+
+Usage: Run anywhere on the server.
+*/}}
+
+{{editMessageNoEscape CHANNELID MESSAGEID "NEW MESSAGE"}}
