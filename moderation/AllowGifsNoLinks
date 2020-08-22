@@ -1,0 +1,23 @@
+{{/*
+Trigger Type: Regex
+Trigger: https?:\/\/\S+
+
+Deletes all links except for gifs
+*/}}
+
+{{sleep 2}}
+{{$Message := getMessage nil .Message.ID}}{{$delete := false}}
+ 
+{{if $Message}}
+{{if lt (len $Message.Embeds) (len (reFindAll `https?:\/\/\S+` .Message.Content))}}{{$delete = true}}{{end}}
+ 
+{{with $Message.Embeds}}
+    {{range .}}
+        {{if and (ne .Type "gif") (ne .Type "gifv")}}
+            {{$delete = true}}
+        {{end}}
+    {{end}}
+{{end}}
+
+{{if $delete}}{{deleteTrigger 0}}{{end}}
+{{end}}
