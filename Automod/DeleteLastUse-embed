@@ -1,0 +1,8 @@
+{{/* WHEN YOU GENERATE THE EMBED EACH TIME THAT LAST USAGE WILL DELETE AUTOMATICALLY. */}}
+
+{{deleteMessage .Channel.ID (toInt (dbGet 0 "Bug").Value) 0}}{{sleep 1}}
+{{ $embed := cembed "title" "x" "description" "x" "color"  65535}} {{$id := sendMessageRetID nil $embed}}
+{{dbSet 0 "Bug" (toString $id)}}
+{{deleteTrigger 1}}
+
+{{/* IN AUTOMOD V2 BE SURE TO CREATE A RULE WITH "MESSAGE MATCHES REGEX" ".*" AND WITH A CONDITION NEW MESSAGE */}}
