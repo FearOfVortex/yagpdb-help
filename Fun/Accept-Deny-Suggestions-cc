@@ -1,0 +1,33 @@
+{{/*
+Deny Or Accept Suggestions
+
+Trigger Type: REGEX
+Regex: ^!(s|suggestion)
+
+Usage: !s deny/accept MESSAGEID REASON 
+*/}}
+
+{{if gt (len .CmdArgs) 1}}
+{{$message :=  getMessage "CHANNELID" (index  .CmdArgs 1)}}
+{{$args := (joinStr " " .CmdArgs)}}
+{{if $message}}
+{{ $suggestionsChannel := CHANNELID}}
+
+{{if (reFind "(?i)^deny" $args)}} 
+  {{ $comment := (joinStr " " "\n\n**Denied by**" .User.Mention "\n" (slice .CmdArgs 2))}}
+    {{$embed := cembed "title" "Denied Suggestion:" "description" (joinStr "" (index $message.Embeds 0).Description $comment) "author" (sdict "name" (index $message.Embeds 0).Author.Name) "color" 16711680 "footer" (sdict "text" (index $message.Embeds 0).Footer)}}
+ {{editMessage $suggestionsChannel (index .CmdArgs 1) $embed}}
+{{deleteTrigger 1 }}
+
+{{else if (reFind "(?i)^accept" $args)}} 
+  {{ $comment := (joinStr " " "\n\n**Approved by**" .User.Mention "\n" (slice .CmdArgs 2))}}
+    {{$embed := cembed "title" "Approved Suggestion:" "description" (joinStr "" (index $message.Embeds 0).Description $comment) "author" (sdict "name" (index $message.Embeds 0).Author.Name) "color" 65280  "footer" (sdict "text" (index $message.Embeds 0).Footer)}}
+    {{editMessage $suggestionsChannel (index .CmdArgs 1) $embed}}
+{{deleteTrigger 0}}
+{{end}}
+{{else}}
+	Invalid Message ID - `{{(index  .CmdArgs 1)}}`
+{{end}}
+{{else }}
+Insufficient Arguments Provided
+{{end}}
