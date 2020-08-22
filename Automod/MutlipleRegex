@@ -1,0 +1,10 @@
+Allows you to set multiple cases of regex.
+
+Trigger Type: Regex
+Trigger: \A(Trigger|Trigger2|Trigger3)
+
+E.g Of the trigger in use.
+\A(I Am Cool|You Are Cool|What Is Cool)
+
+
+This is the response and can be whatever you want.
