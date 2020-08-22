@@ -1,0 +1,9 @@
+{{/*
+Trigger Type: Command
+Trigger: Send Embed
+
+Usage: Run in channel you want embed to send in
+*/}}
+{{$embed := cembed "title" "x" "description" "x" "color" 16728128}}
+{{ sendMessage nil $embed}}
+{{deleteTrigger 1 }}
