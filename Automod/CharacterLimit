@@ -1,4 +1,6 @@
 {{/* 
+Limits the amount of characters a user can have in a certain message
+
 Trigger Type: Regex 
 Trigger: .* 
 */}}
